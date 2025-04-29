@@ -23,7 +23,7 @@ jobs:
           branch: "HEAD"
           version_format: "${major}.${minor}.${patch}"  # Ensures versioning follows semantic versioning
 
-      - name: login to GHCR
+      - name: login to GHCR.
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
