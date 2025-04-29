@@ -14,7 +14,7 @@ jobs:
       - name: Checkout code.
         uses: actions/checkout@v4
 
-      - name: Generate Semantic Version
+      - name: Generate Semantic Version.
         id: semvar
         uses: paulhatch/semantic-version@v5.4.0
         with:
