@@ -19,7 +19,9 @@ jobs:
         uses: paulhatch/semantic-version@v5.4.0
         with:
           bump_each_commit: 'true'
-          tag_prefix: ""
+          tag_prefix: "v"  # Expecting tags like v1.2.3
+          branch: "HEAD"
+          version_format: "${major}.${minor}.${patch}"  # Ensures versioning follows semantic versioning
 
       - name: login to GHCR
         uses: docker/login-action@v2
