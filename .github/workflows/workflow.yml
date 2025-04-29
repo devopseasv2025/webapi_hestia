@@ -14,20 +14,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Application Version
+      - name: Generate Semantic Version
         id: semvar-app
         uses: paulhatch/semantic-version@v5.4.0
         with:
           bump_each_commit: 'true'
           tag_prefix: ""
 
-      - name: Build Docker Image
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build and Push Docker Image
         run: |
+          IMAGE_TAG=ghcr.io/${{ github.repository }}:${{ steps.semver.outputs.version }}
           docker build \
-            -t ghcr.io/${{ github.repository }}:${{ steps.semvar-app.outputs.version }} \
-            -f Dockerfile \
-            .
-          docker push ghcr.io/${{ github.repository }}-webapi_hestia --all-tags
+            docker build -t $IMAGE_TAG -f Dockerfile .
+            docker push $IMAGE_TAG
 
       - name: Create release notes
         uses: ncipollo/release-action@v1
@@ -36,6 +38,8 @@ jobs:
           generateReleaseNotes: true
           body: |
             This release includes the following container images:
-              - ghcr.io/${{ github.repository }}:-webapi_hestia${{ steps.semvar-app.outputs.version }}
+            - ghcr.io/${{ github.repository }}:${{ steps.semvar-app.outputs.version }}
           allowUpdates: true
           token: ${{ secrets.GHCR_TOKEN }}
+
+
