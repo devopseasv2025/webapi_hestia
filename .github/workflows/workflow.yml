@@ -26,19 +26,22 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          IMAGE_TAG=ghcr.io/${{ github.repository }}:${{ steps.semvar-app.outputs.version }}
+          VERSION=${{ steps.semvar.outputs.version }}
+          if [ -z "$VERSION" ]; then
+            echo "Error: Version is empty."
+            exit 1
+          fi
+          IMAGE_TAG=ghcr.io/${{ github.repository }}:$VERSION
           docker build -t $IMAGE_TAG -f Dockerfile .
           docker push $IMAGE_TAG
 
       - name: Create release notes
         uses: ncipollo/release-action@v1
         with:
-          tag: ${{ steps.semvar-app.outputs.version }}
+          tag: ${{ steps.semvar.outputs.version }}
           generateReleaseNotes: true
           body: |
             This release includes the following container images:
-            - ghcr.io/${{ github.repository }}:${{ steps.semvar-app.outputs.version }}
+            - ghcr.io/${{ github.repository }}:${{ steps.semvar.outputs.version }}
           allowUpdates: true
           token: ${{ secrets.GHCR_TOKEN }}
-
-
