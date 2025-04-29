@@ -13,3 +13,9 @@ The system collects and processes data from multiple sources:
     Visual cameras
 
 Using this data, the system identifies high-risk areas and triggers early warnings to emergency services. Additionally, it stores environmental data for long-term analysis and research in climate, nature conditions, and fire behavior.
+
+
+
+
+
+. 
