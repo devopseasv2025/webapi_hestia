@@ -21,3 +21,32 @@ services:
       - "5342:80"
     environment:
       - ACCEPT_EULA=Y
+
+  mariadb:
+    image: mariadb:11.2
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: deviceDB
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  flyway:
+    image: flyway/flyway:latest
+    container_name: flyway
+    depends_on:
+      - mariadb
+    volumes:
+      - ./db/migrations:/flyway/sql
+    command: [ "migrate" ]
+    environment:
+      FLYWAY_URL: jdbc:mariadb://mariadb:3306/deviceDB
+      FLYWAY_USER: user
+      FLYWAY_PASSWORD: pass
+    restart: on-failure
+
+volumes:
+  mariadb_data:
