@@ -19,7 +19,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
-   Delivery-load-testing:
+  Delivery-load-testing:
     needs: [ integration-StaticCodeAnalysis ]
     runs-on: ubuntu-latest
 
@@ -48,6 +48,7 @@ jobs:
   
 
   Deployment:
+    needs: [ integration-StaticCodeAnalysis, Delivery-load-testing ]
     runs-on: ubuntu-latest
     steps:
 
