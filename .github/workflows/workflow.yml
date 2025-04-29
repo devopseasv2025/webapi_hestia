@@ -33,7 +33,7 @@ jobs:
 
       - name: Run API container locally
         run: |
-          docker run -d --name api-container -p 3000:8080 local-api:latest
+          docker run -d --name api-container -p 3000:3000 local-api:latest
           sleep 5  # Wait for service to start
 
       - name: Run k6 spike test (Docker)
