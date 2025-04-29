@@ -41,7 +41,7 @@ jobs:
           docker build -t $IMAGE_TAG -f Dockerfile .
           docker push $IMAGE_TAG
 
-      - name: Create release notes
+      - name: Create release notes.
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ steps.semvar.outputs.version }}
