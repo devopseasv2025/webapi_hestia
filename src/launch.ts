@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import cors from "cors";
 import cookieParser from 'cookie-parser';
 import Logger from "./Infrastructure/Logger/logger.js";
-import {authRoutes} from "./Routes/Auth/authRoutes.js";
+import {deviceRoutes} from "./Routes/Devices/deviceRoutes.js";
 
 
 const app = express();
@@ -14,7 +14,7 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
 app.use(cookieParser());
-app.use('/api/auth/', authRoutes);
+app.use('/api/devices/', deviceRoutes);
 
 
 const server = app.listen(PORT, () =>{

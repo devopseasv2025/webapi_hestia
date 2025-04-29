@@ -13,5 +13,6 @@ CREATE TABLE device_data (
      PPM FLOAT,
      SOIL_MOISTURE FLOAT,
      PRESSURE FLOAT,
+     DATE DATE,
      FOREIGN KEY (PIE_ID) REFERENCES devices(PIE_ID)
 );
