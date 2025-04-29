@@ -1,8 +1,5 @@
 import express, {request, response} from 'express';
-
-function analyseNumbers(numbers: any) {
-    
-}
+import {average} from "../Services/analyticsServices";
 
 export function analyticsController (req: express.Request, res: express.Response) {
     const numbers = req.body;
@@ -11,5 +8,6 @@ export function analyticsController (req: express.Request, res: express.Response
         res.status(400).json({ error:'Expecting Numbers'})
     }
 
-    const result = analyseNumbers(numbers);
+    const result = average(numbers);
+    console.log(result);
 }

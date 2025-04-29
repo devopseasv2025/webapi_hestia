@@ -1,9 +1,12 @@
-import express from 'express';
+import express, {request, response} from 'express';
 import bodyParser from 'body-parser';
 import cors from "cors";
 import cookieParser from 'cookie-parser';
 import Logger from "./Infrastructure/Logger/logger.js";
 import {deviceRoutes} from "./Routes/Devices/deviceRoutes.js";
+import {analyticsController} from "./controller/analyticsController";
+import {getSensorDataOnly} from "./Repository/MemoryDeviceRepository";
+import {availableParallelism} from "node:os";
 
 
 const app = express();
@@ -19,5 +22,11 @@ app.use('/api/devices/', deviceRoutes);
 
 const server = app.listen(PORT, () =>{
     Logger.info("Server service has started on port: " + PORT);
+
+
+    const array = getSensorDataOnly()
+    console.log(array)
+
+    analyticsController(request, response)
 })
 
