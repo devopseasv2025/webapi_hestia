@@ -1,32 +1,41 @@
 import {validateNumberArray} from "../Utilities/validateData";
+import {iCalculationRequest} from "../Entities/Interfaces/iRequests";
+import {getSensorDataOnly} from "../Repository/memoryDeviceRepository";
 
-export function sum(numbers: number[]): number {
-    validateNumberArray(numbers)
+export default class AnalyticsServices {
+    constructor(request: iCalculationRequest) {
+        let temprepo = getSensorDataOnly();
+        // Constructor logic if needed
+    }
 
-    return numbers.reduce((acc, val) => acc + val, 0);
-}
+    sum(numbers: number[]): number {
+        validateNumberArray(numbers)
 
-export function average(numbers: number[]): number {
-    validateNumberArray(numbers)
+        return numbers.reduce((acc, val) => acc + val, 0);
+    }
 
-    return sum(numbers) / numbers.length;
-}
+    average(numbers: number[]): number {
+        validateNumberArray(numbers)
 
-export function min(numbers: number[]): number {
-    validateNumberArray(numbers)
+        return this.sum(numbers) / numbers.length;
+    }
 
-    return Math.min(...numbers);
-}
+    min(numbers: number[]): number {
+        validateNumberArray(numbers)
 
-export function max(numbers: number[]): number {
-    validateNumberArray(numbers)
+        return Math.min(...numbers);
+    }
 
-    return Math.max(...numbers);
-}
+    max(numbers: number[]): number {
+        validateNumberArray(numbers)
 
-export function count(numbers: number[]): number {
-    validateNumberArray(numbers)
+        return Math.max(...numbers);
+    }
 
-    return numbers.length;
+    count(numbers: number[]): number {
+        validateNumberArray(numbers)
+
+        return numbers.length;
+    }
 }
 
