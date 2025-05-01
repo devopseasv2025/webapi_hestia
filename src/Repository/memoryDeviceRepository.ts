@@ -1,26 +1,9 @@
 import {date} from "zod";
 import {moveCursor} from "node:readline";
 import {mock} from "node:test";
+import { iSensorData, iDaoRawSensorData } from "../Entities/Interfaces/iSensorData";
 
-interface SensorData{
-    ID: number,
-    PIE_ID: number,
-    TEMP: number,
-    AIR_HUMID: number,
-    PPM: number,
-    SOIL_MOISTURE: number,
-    PRESSURE: Number,
-    DATE: Date,
-}
-
-interface RawSensorData{
-    TEMP: number,
-    AIR_HUMID: number,
-    PPM: number,
-    SOIL_MOISTURE: number
-}
-
-const mockdb: SensorData[] = [
+const mockdb: iSensorData[] = [
     {"ID": 1, "PIE_ID": 1, "TEMP": 21.7, "AIR_HUMID": 63.68, "PPM": 520.16, "SOIL_MOISTURE": 88.12, "PRESSURE": 1015.84, "DATE": new Date("2025-04-29T12:56:25")},
     {"ID": 2, "PIE_ID": 1, "TEMP": 23.59, "AIR_HUMID": 57.6, "PPM": 813.41, "SOIL_MOISTURE": 26.3, "PRESSURE": 985.01, "DATE": new Date("2025-04-29T11:56:25")},
     {"ID": 3, "PIE_ID": 1, "TEMP": 21.3, "AIR_HUMID": 38.38, "PPM": 564.43, "SOIL_MOISTURE": 66.53, "PRESSURE": 985.82, "DATE": new Date("2025-04-29T10:56:25")},
@@ -33,7 +16,7 @@ const mockdb: SensorData[] = [
     {"ID": 10, "PIE_ID": 1, "TEMP": 26.08, "AIR_HUMID": 46.83, "PPM": 423.67, "SOIL_MOISTURE": 59.56, "PRESSURE": 984.68, "DATE": new Date("2025-04-29T03:56:25")}
 ]
 
-export function getSensorDataOnly(): RawSensorData[] {
+export function getSensorDataOnly(): iDaoRawSensorData[] {
     return mockdb
         .map(sensorData => ({
             TEMP: sensorData.TEMP,

@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser';
 import Logger from "./Infrastructure/Logger/logger.js";
 import {deviceRoutes} from "./Routes/Devices/deviceRoutes.js";
 import {analyticsController} from "./controller/analyticsController";
-import {getSensorDataOnly} from "./Repository/MemoryDeviceRepository";
+import {getSensorDataOnly} from "./Repository/memoryDeviceRepository";
 import {availableParallelism} from "node:os";
 
 
