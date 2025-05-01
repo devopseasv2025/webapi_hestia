@@ -26,9 +26,12 @@
     "cookie-parser": "^1.4.7",
     "cookie-session": "^2.1.0",
     "cors": "^2.8.5",
+    "cpy-cli": "^5.0.0",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
+    "k6": "^0.0.0",
     "mongodb": "^6.15.0",
     "morgan": "^1.10.0",
     "node-appwrite": "^15.0.1",
@@ -36,9 +39,7 @@
     "ts-custom-error": "^3.3.1",
     "ts-node": "^10.9.2",
     "winston": "^3.17.0",
-    "zod": "^3.24.2",
-    "cpy-cli": "^5.0.0",
-    "cross-env": "^7.0.3"
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@types/ajv": "^0.0.5",

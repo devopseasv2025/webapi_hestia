@@ -6,7 +6,49 @@ on:
       - main
 
 jobs:
+  integration-StaticCodeAnalysis:
+    name: Build and analyze
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - uses: SonarSource/sonarqube-scan-action@v4
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+  Delivery-load-testing:
+    needs: [ integration-StaticCodeAnalysis ]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build local Docker image
+        run: |
+          docker build -t local-api:latest -f Dockerfile .
+
+      - name: Run API container locally
+        run: |
+          docker run -d --name api-container -p 3000:3000 local-api:latest
+          sleep 5  # Wait for service to start
+
+      - name: Run k6 spike test (Docker)
+        run: |
+          docker run --network host -v ${{ github.workspace }}/k6:/scripts grafana/k6 run /scripts/scripts/spike_test.js
+
+      - name: Stop and clean up API container
+        run: |
+          docker stop api-container
+          docker rm api-container
+
+  
+
   Deployment:
+    needs: [ integration-StaticCodeAnalysis, Delivery-load-testing ]
     runs-on: ubuntu-latest
     steps:
 
