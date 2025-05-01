@@ -5,7 +5,7 @@ export interface iSensorData {
     AIR_HUMID: number,
     PPM: number,
     SOIL_MOISTURE: number,
-    PRESSURE: Number,
+    PRESSURE: number,
     DATE: Date,
 }
 
@@ -13,5 +13,6 @@ export interface iDaoRawSensorData {
     TEMP: number,
     AIR_HUMID: number,
     PPM: number,
-    SOIL_MOISTURE: number
+    SOIL_MOISTURE: number,
+    PRESSURE: number
 }

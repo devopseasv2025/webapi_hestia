@@ -1,6 +1,3 @@
-import {date} from "zod";
-import {moveCursor} from "node:readline";
-import {mock} from "node:test";
 import { iSensorData, iDaoRawSensorData } from "../Entities/Interfaces/iSensorData";
 
 const mockdb: iSensorData[] = [
@@ -22,6 +19,7 @@ export function getSensorDataOnly(): iDaoRawSensorData[] {
             TEMP: sensorData.TEMP,
             AIR_HUMID: sensorData.AIR_HUMID,
             PPM: sensorData.PPM,
-            SOIL_MOISTURE: sensorData.SOIL_MOISTURE
+            SOIL_MOISTURE: sensorData.SOIL_MOISTURE,
+            PRESSURE: sensorData.PRESSURE
         }));
 }
