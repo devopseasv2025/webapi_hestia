@@ -1,4 +1,4 @@
 
 export interface IDeviceRepository{
-    read(id: number, startDate: Date, range: number);
+    read(id: number, range: number);
 }

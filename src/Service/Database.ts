@@ -1,28 +1,29 @@
+import mariadb from "mariadb";
 
-import mysql from 'mysql2/promise';
-import Logger from "../Infrastructure/Logger/logger.js";
+const pool = mariadb.createPool({
+    host: "mariadb",
+    port: 3306,
+    user: "user",
+    password:"pass",
+    database:"deviceDB",
+    connectionLimit: 5
+});
 
+async function asyncFunction<T = any>(query: string, params?: any[]) {
+    let conn;
+    try {
 
-export async function connectToDatabase(){
-    try{
-        const connection = await mysql.createConnection({
-            host: 'localhost',
-            user: 'user',
-            password: 'pass',
-            database: 'deviceDB',
-            waitForConnections: true,
-            connectionLimit: 10,
-            queueLimit: 0
-        })
+        conn = await pool.getConnection();
+        const rows = await conn.query(query, params);
+        console.table(rows);
+        return rows as T;
 
-        console.log("Connected to Database");
-
-        const [rows] = await connection.execute('SELECT COUNT(*) FROM device')
-        console.log('Query result:', rows);
-
-        await connection.end();
-
-    } catch (err){
-        Logger.error("Failed to connect to the database")
+    } catch(err){
+        console.log(err);
+        throw err;
+    }finally {
+        if (conn) conn.release();
     }
 }
+
+export {asyncFunction};

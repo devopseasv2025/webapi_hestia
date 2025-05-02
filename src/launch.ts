@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser';
 import Logger from "./Infrastructure/Logger/logger.js";
 import {deviceRoutes} from "./Routes/Devices/deviceRoutes.js";
 
-import { connectToDatabase } from "./Service/Database.js";
+import { asyncFunction } from "./Service/Database.js";
 
 
 const app = express();
@@ -21,6 +21,6 @@ app.use('/api/devices/', deviceRoutes);
 
 const server = app.listen(PORT, async () =>{
      Logger.info("Server service has started on port: " + PORT);
-    await connectToDatabase();
+
 
 })
