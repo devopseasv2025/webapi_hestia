@@ -5,7 +5,7 @@ const transports = [
     new winston.transports.Console(),
     new SeqTransport({
         serverUrl: process.env.SEQ_URL || "http://seq:5341",
-        onError: (e => { console.error(e) }),
+        onError: (e => { console.error("[SEQ LOGGER ERROR]", e.message); }),
         handleExceptions: true,
         handleRejections: true,
     })

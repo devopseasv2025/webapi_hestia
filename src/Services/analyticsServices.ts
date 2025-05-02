@@ -3,10 +3,6 @@ import {iCalculationRequest} from "../Entities/Interfaces/iRequests";
 import {getSensorDataOnly} from "../Repository/memoryDeviceRepository";
 
 export default class AnalyticsServices {
-    constructor(request: iCalculationRequest) {
-        let temprepo = getSensorDataOnly();
-        // Constructor logic if needed
-    }
 
     sum(numbers: number[]): number {
         validateNumberArray(numbers)
