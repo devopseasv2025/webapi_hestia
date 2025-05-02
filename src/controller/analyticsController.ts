@@ -60,7 +60,7 @@ export class AnalyticsController {
             }
         })
 
-        console.log(sensorValuesMap);
+        console.table(sensorValuesMap);
 
 
         return res.status(200).json(sensorValuesMap);
