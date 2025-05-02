@@ -28,11 +28,7 @@ jobs:
       - name: debug
         run: |
           echo "Stryker report directory:"
-          ls -la reports/mutation
-          echo "Stryker report files:"
-          ls -la reports/mutation/**/*.html
-          echo "Stryker report files:"
-          ls -la reports/mutation/**/*.txt
+          ls -la 
 
       - name: Upload Stryker Report Folder Recursively
         uses: actions/upload-artifact@v4
