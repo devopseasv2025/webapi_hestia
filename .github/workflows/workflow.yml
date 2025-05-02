@@ -23,7 +23,7 @@ jobs:
         run: npm install
 
       - name: Run Stryker mutation tests
-        run: npx stryker run --testRunner=jest --coverageAnalysis=perTest --reporters=html --reporters=clear-text --reporters=progress --packageManager=npm
+        run: npx @stryker-mutator/core run --testRunner=jest --coverageAnalysis=perTest --reporters=html --reporters=clear-text --reporters=progress --packageManager=npm
 
   integration-unittest:
     runs-on: ubuntu-latest
