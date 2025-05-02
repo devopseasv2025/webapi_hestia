@@ -27,11 +27,11 @@ jobs:
         run: npm test -- --coverage
 
       - name: SonarQube Scan
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: |
-          npx sonar-scanner
+          npx sonar-scanner -Dsonar.projectKey=${{ github.event.repository.name }} \ 
+            -Dsonar.sources=. \
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
      
 
 
