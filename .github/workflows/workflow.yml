@@ -6,6 +6,25 @@ on:
       - main
 
 jobs:
+
+  integration-unittest:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Jest tests
+        run: npm test
+
   integration-StaticCodeAnalysis:
     name: Build and analyze
     runs-on: ubuntu-latest
@@ -20,7 +39,7 @@ jobs:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
   Delivery-load-testing:
-    needs: [ integration-StaticCodeAnalysis ]
+    needs: [ integration-StaticCodeAnalysis, integration-unittest ]
     runs-on: ubuntu-latest
 
     steps:
