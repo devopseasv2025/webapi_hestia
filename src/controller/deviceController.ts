@@ -1,5 +1,5 @@
-import {RegexUtils} from "../utils/regexUtils.js";
 import {IDeviceRepository} from "../Repository/IDeviceRepository.js";
+import {RegexUtils} from "../Utilities/regexUtils";
 
 
 interface IDeviceController {
