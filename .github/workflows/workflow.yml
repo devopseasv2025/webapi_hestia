@@ -25,6 +25,13 @@ jobs:
       - name: Run Stryker mutation tests
         run: npx @stryker-mutator/core run --testRunner=jest --coverageAnalysis=perTest --reporters=html --reporters=clear-text --reporters=progress
 
+      - name: Collect Stryker Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Stryker Report
+          path: StrykerOutput
+
   integration-unittest:
     runs-on: ubuntu-latest
 
