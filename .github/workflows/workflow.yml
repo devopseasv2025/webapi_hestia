@@ -28,10 +28,11 @@ jobs:
 
       - name: SonarQube Scan
         run: |
-          npx sonar-scanner -Dsonar.projectKey=${{ github.event.repository.name }} \ 
-            -Dsonar.sources=. \
-            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+          npx sonar-scanner \
+            / -d:sonar.projectKey=${{ github.event.repository.name }} \ 
+            / -d:sonar.sources=. \
+            / -d:sonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+            / -d:sonar.login=${{ secrets.SONAR_TOKEN }} \
      
 
 
