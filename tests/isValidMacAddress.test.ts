@@ -6,6 +6,10 @@ describe("RegexUtils", () => {
             expect(RegexUtils.isValidMacAddress(undefined)).toBe(false);
         });
 
+        it("should return false for null input", () => {
+            expect(RegexUtils.isValidMacAddress(null)).toBe(false);
+        });
+
         it("should return false for empty string input", () => {
             expect(RegexUtils.isValidMacAddress("")).toBe(false);
         });
