@@ -1,8 +1,10 @@
-import Logger from "../Infrastructure/Logger/logger";
+import Logger from "../Infrastructure/Logger/logger.js";
 import express from "express";
-import {iCalculationRequest} from "../Entities/Interfaces/iRequests";
-import {isNonEmptyArray, isValidDate, isValidNumber} from "../Utilities/validateData";
-import {getDataByPieId, getSensorDataOnly} from "../Repository/memoryDeviceRepository";
+import {iCalculationRequest} from "../Entities/Interfaces/iRequests.js";
+import {isNonEmptyArray, isValidDate, isValidNumber} from "../Utilities/validateData.js";
+import {getDataByPieId, getSensorDataOnly} from "../Repository/memoryDeviceRepository.js";
+import {iDaoRawSensorData, iSensorData} from "../Entities/Interfaces/iSensorData.js";
+import {AnalyticsServices} from "../Services/analyticsServices.js";
 
 export class AnalyticsController {
 
@@ -14,9 +16,53 @@ export class AnalyticsController {
         }
 
         //TODO: IMPLEMENT ACTUAL REPO HERE!!!
-        const dataMemory = getDataByPieId(request.PIE_ID);
+        const dataMemory: iSensorData[] = getDataByPieId(request.PIE_ID);
+        //END TODO
 
-        console.log(dataMemory)
+        // ✅ Dynamic extraction of sensor data into arrays
+        const sensorFields = request.SENSOR; // e.g., ["TEMP", "PPM", ...]
+        const sensorValuesMap: Record<string, number[]> = {};
+        const requestedCalcFields = request.CALCULATION; // e.g., ["average", "min", "max" ...]
+
+        for (const field of sensorFields) {
+            sensorValuesMap[field] = dataMemory
+                .map(entry => entry[field.toUpperCase() as keyof iDaoRawSensorData])
+                .filter(value => typeof value === "number") as number[];
+        }
+
+        const anaService = new AnalyticsServices();
+
+        requestedCalcFields.forEach(field => {
+            for (const sensorField of sensorFields) {
+                const values = sensorValuesMap[sensorField];
+                if (values && values.length > 0) {
+                    switch (field.toUpperCase()) {
+                        case "SUM":
+                            sensorValuesMap[`${sensorField}_sum`] = [anaService.sum(values)];
+                            break;
+                        case "AVERAGE":
+                            sensorValuesMap[`${sensorField}_average`] = [anaService.average(values)];
+                            break;
+                        case "MIN":
+                            sensorValuesMap[`${sensorField}_min`] = [anaService.min(values)];
+                            break;
+                        case "MAX":
+                            sensorValuesMap[`${sensorField}_max`] = [anaService.max(values)];
+                            break;
+                        case "COUNT":
+                            sensorValuesMap[`${sensorField}_count`] = [anaService.count(values)];
+                            break;
+                        default:
+                            Logger.error(`Unknown calculation type: ${field}`);
+                    }
+                }
+            }
+        })
+
+        console.log(sensorValuesMap);
+
+
+        return res.status(200).json(sensorValuesMap);
 
         // Valid request
     }

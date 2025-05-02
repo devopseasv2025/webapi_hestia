@@ -1,6 +1,6 @@
 import {validateNumberArray} from "../Utilities/validateData.js";
 
-export default class AnalyticsServices {
+export class AnalyticsServices {
 
     sum(numbers: number[]): number {
         validateNumberArray(numbers)

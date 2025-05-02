@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
 app.use(cookieParser());
 app.use('/api/devices/', deviceRoutes);
-app.use('/api/analytics', analyticsRoutes);
+app.use('/api/analytics/', analyticsRoutes);
 
 const server = app.listen(PORT, () =>{
     Logger.info("Server service has started on port: " + PORT);
