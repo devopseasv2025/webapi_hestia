@@ -1,5 +1,6 @@
 import {validateNumberArray, isNonEmptyArray, isValidDate, isValidNumber} from '../src/Utilities/validateData';
 
+
 describe('validateNumberArray', () => {
     it('should throw an error if input is not an array', () => {
         // @ts-ignore

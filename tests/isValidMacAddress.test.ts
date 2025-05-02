@@ -1,4 +1,4 @@
-import { RegexUtils } from "../src/utils/regexUtils";
+import { RegexUtils } from "../src/Utilities/regexUtils";
 
 describe("RegexUtils", () => {
     describe("isValidMacAddress", () => {
