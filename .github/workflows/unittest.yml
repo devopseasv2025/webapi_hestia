@@ -1,0 +1,24 @@
+name: unittest.yml
+on:
+  push:
+    branches:
+      - feat/unittest-automation
+
+jobs:
+    unittest:
+      runs-on: ubuntu-20.04
+
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+
+        - name: Set up Node.js
+          uses: actions/setup-node@v3
+          with:
+            node-version: '14'
+
+        - name: Install dependencies
+          run: npm install
+
+        - name: Run Jest tests
+          run: npm test
