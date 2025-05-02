@@ -2,7 +2,7 @@ export class RegexUtils {
 
     public static isValidMacAddress(macAddress?: string): boolean {
 
-        if (!macAddress || macAddress.length === 0) {
+        if (typeof macAddress !== "string" || macAddress.length === 0) {
             return false;
         }
 
