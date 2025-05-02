@@ -29,11 +29,11 @@ jobs:
       - name: SonarQube Scan
         run: |
           npx sonar-scanner \
-            -D:sonar.projectKey=${{ github.event.repository.name }} \ 
-            -D:sonar.sources=. \
-            -D:sonar.host.url=${{ secrets.SONAR_HOST_URL }} \
-            -D:sonar.login=${{ secrets.SONAR_TOKEN }} \
-     
+            -Dsonar.projectKey=${{ github.event.repository.name }} \
+            -Dsonar.sources=. \
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        shell: bash
 
 
   Delivery-load-testing:
