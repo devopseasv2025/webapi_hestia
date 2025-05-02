@@ -2,7 +2,7 @@ import Logger from "../Infrastructure/Logger/logger.js";
 import express from "express";
 import {iCalculationRequest} from "../Entities/Interfaces/iRequests.js";
 import {isNonEmptyArray, isValidDate, isValidNumber} from "../Utilities/validateData.js";
-import {getDataByPieId, getSensorDataOnly} from "../Repository/memoryDeviceRepository.js";
+import {getDataByPieId} from "../Repository/memoryDeviceRepository.js";
 import {iDaoRawSensorData, iSensorData} from "../Entities/Interfaces/iSensorData.js";
 import {AnalyticsServices} from "../Services/analyticsServices.js";
 
