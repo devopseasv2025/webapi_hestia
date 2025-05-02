@@ -1,4 +1,4 @@
-import {RegexUtils} from "../Utilities/regexUtils";
+import {RegexUtils} from "../Utilities/regexUtils.js";
 
 interface IDeviceController {
     getDeviceByMac(req: any, res: any): Response;
