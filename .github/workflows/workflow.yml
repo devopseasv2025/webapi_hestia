@@ -30,7 +30,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Stryker Report
-          path: StrykerOutput
+          path: reports/mutation
 
   integration-unittest:
     runs-on: ubuntu-latest
