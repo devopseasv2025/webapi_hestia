@@ -1,20 +1,30 @@
 import {RegexUtils} from "../utils/regexUtils.js";
 
 interface IDeviceController {
-    getDevice(req: any, res: any): Response;
+    getDeviceByMac(req: any, res: any): Response;
+    getDeviceById(req: any, res: any): Response;
     getDevices(req: any, res: any): Response;
 }
 
 export default class DeviceController implements IDeviceController {
 
-    public getDevice(req: any, res: any) {
-
+    public getDeviceById(req: any, res: any): Response {
         if (!req.params.id) {
+            return res.status(404).send("Id missing required field");
+        }
+
+        return res.status(200).send("[TEMP] Device returned with id " + req.params.id);
+
+    }
+
+    public getDeviceByMac(req: any, res: any) {
+
+        if (!req.params?.mac) {
             return res.status(400).send("Device ID is required");
         }
 
         // Check if the device ID is a valid mac address
-        if (RegexUtils.isValidMacAddress(req.params?.macAddress)) {
+        if (!RegexUtils.isValidMacAddress(req.params?.mac)) {
             return res.status(400).send("Invalid Device ID, must be a valid mac address for the device");
         }
 

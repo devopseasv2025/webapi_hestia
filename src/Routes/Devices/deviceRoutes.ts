@@ -2,10 +2,11 @@ import express from "express";
 import DeviceController from "../../controller/deviceController.js";
 
 const deviceRoutes = express.Router();
-const deviceController = new DeviceController();
+const {getDeviceById, getDeviceByMac, getDevices} = new DeviceController();
 
 
-deviceRoutes.get("/" , (req, res) => res.send("Welcome"));
-deviceRoutes.get("/device/:id" , (req, res) => deviceController.getDevice(req, res));
-deviceRoutes.get("/devices", (req, res) => deviceController.getDevices(req, res));
+deviceRoutes.get("/id/:id", getDeviceById);
+deviceRoutes.get("/mac/:mac", getDeviceByMac);
+deviceRoutes.get("/", getDevices);
+
 export { deviceRoutes };

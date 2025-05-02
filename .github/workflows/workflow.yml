@@ -4,23 +4,52 @@ on:
     branches:
       - master
       - main
+      - feat/striker
 
 jobs:
-  integration-StaticCodeAnalysis:
-    name: Build and analyze
+
+  integration-unittest:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - uses: SonarSource/sonarqube-scan-action@v4
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: SonarQube Scan
+        run: |
+          npx sonar-scanner \
+            -Dsonar.projectKey=${{ github.event.repository.name }} \
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        shell: bash
+
+      - name: Run Stryker mutation tests
+        run: npx @stryker-mutator/core run --testRunner=jest --coverageAnalysis=perTest --reporters=html
+
+      - name: Upload Stryker Report Folder Recursively
+        uses: actions/upload-artifact@v4
+        with:
+          name: Stryker Report
+          path: reports/mutation/**
+
+      - name: Run Jest tests
+        run: npm test -- --coverage
+
+
+
+
+
 
   Delivery-load-testing:
-    needs: [ integration-StaticCodeAnalysis ]
+    needs: [ integration-unittest ]
     runs-on: ubuntu-latest
 
     steps:
@@ -45,10 +74,10 @@ jobs:
           docker stop api-container
           docker rm api-container
 
-  
+
 
   Deployment:
-    needs: [ integration-StaticCodeAnalysis, Delivery-load-testing ]
+    needs: [ Delivery-load-testing ]
     runs-on: ubuntu-latest
     steps:
 
