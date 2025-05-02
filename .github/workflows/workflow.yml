@@ -29,13 +29,12 @@ jobs:
       - name: SonarQube Scan
         run: |
           npx sonar-scanner \
-          -D:sonar.projectKey=webapi_hestia \
-          -D:sonar.sources=. \
-          -D:sonar.host.url=*** \
-          -D:sonar.login=***
-  
-  
-  
+            -D:sonar.projectKey=${{ github.event.repository.name }} \ 
+            -D:sonar.sources=. \
+            -D:sonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+            -D:sonar.login=${{ secrets.SONAR_TOKEN }} \
+     
+
 
   Delivery-load-testing:
     needs: [ integration-unittest ]
