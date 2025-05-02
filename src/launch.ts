@@ -5,6 +5,8 @@ import cookieParser from 'cookie-parser';
 import Logger from "./Infrastructure/Logger/logger.js";
 import {deviceRoutes} from "./Routes/Devices/deviceRoutes.js";
 
+import { asyncFunction } from "./Service/Database.js";
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -17,7 +19,8 @@ app.use(cookieParser());
 app.use('/api/devices/', deviceRoutes);
 
 
-const server = app.listen(PORT, () =>{
-    Logger.info("Server service has started on port: " + PORT);
-})
+const server = app.listen(PORT, async () =>{
+     Logger.info("Server service has started on port: " + PORT);
 
+
+})
