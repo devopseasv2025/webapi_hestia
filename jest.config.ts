@@ -10,8 +10,11 @@ const config: Config = {
     },
     collectCoverage: true,
     collectCoverageFrom: ["./src/**"],
-    coverageReporters: ['html'],
+    coverageReporters: ['html', 'lcov'],
     coverageDirectory: './coverage'
+
 };
+
+
 
 export default config;
