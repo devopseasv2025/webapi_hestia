@@ -4,9 +4,26 @@ on:
     branches:
       - master
       - main
-      - feat/coverage-test
+      - feat/striker
 
 jobs:
+
+  stryker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Stryker mutation tests
+        run: npx stryker run --break-at 80 --config stryker.conf.js
 
   integration-unittest:
     runs-on: ubuntu-latest

@@ -8,3 +8,6 @@
 .idea
 dist
 
+
+# stryker temp files
+.stryker-tmp
