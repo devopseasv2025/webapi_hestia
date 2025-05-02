@@ -5,8 +5,6 @@ import cookieParser from 'cookie-parser';
 import Logger from "./Infrastructure/Logger/logger.js";
 import {deviceRoutes} from "./Routes/Devices/deviceRoutes.js";
 
-import { asyncFunction } from "./Service/Database.js";
-
 
 const app = express();
 const PORT = process.env.PORT || 3000;

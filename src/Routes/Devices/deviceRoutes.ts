@@ -1,13 +1,15 @@
 import express from "express";
 import DeviceController from "../../controller/deviceController.js";
+import {asyncFunction} from "../../Service/Database.js";
+import {DeviceRepositoryMariaDB} from "../../Repository/DeviceRepositoryMariaDB.js";
 
 const deviceRoutes = express.Router();
-const {getDeviceById, getDeviceByMac, getDevices} = new DeviceController();
+const deviceController = new DeviceController(new DeviceRepositoryMariaDB());
 
 
-deviceRoutes.get("/id/:id", getDeviceById);
-deviceRoutes.get("/mac/:mac", getDeviceByMac);
-deviceRoutes.get("/", getDevices);
+deviceRoutes.get("/id/:id", deviceController.getDeviceById);
+deviceRoutes.get("/mac/:mac", deviceController.getDeviceByMac);
+deviceRoutes.get("/", deviceController.getDevices);
 
 deviceRoutes.get("/temp", async (req, res) => {
     const id = req.query.id;

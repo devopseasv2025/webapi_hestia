@@ -15,7 +15,6 @@ async function asyncFunction<T = any>(query: string, params?: any[]) {
 
         conn = await pool.getConnection();
         const rows = await conn.query(query, params);
-        console.table(rows);
         return rows as T;
 
     } catch(err){
