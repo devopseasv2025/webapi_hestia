@@ -8,6 +8,10 @@ const config: Config = {
     transform: {
         '^.+\\.ts$': 'ts-jest',
     },
+    collectCoverage: true,
+    collectCoverageFrom: ["./src/**"],
+    coverageReporters: ['html'],
+    coverageDirectory: './coverage'
 };
 
 export default config;
