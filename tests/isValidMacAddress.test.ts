@@ -29,5 +29,17 @@ describe("RegexUtils", () => {
         it("should return true for valid MAC address format with mixed case", () => {
             expect(RegexUtils.isValidMacAddress("00:1a:2B:3C:4d:5E")).toBe(true);
         });
+
+        it("should not run regex on invalid input", () => {
+            const spy = jest.spyOn(RegExp.prototype, "test");
+
+            RegexUtils.isValidMacAddress(undefined);
+            RegexUtils.isValidMacAddress(null as any);
+            RegexUtils.isValidMacAddress("");
+
+            expect(spy).not.toHaveBeenCalled();
+
+            spy.mockRestore();
+        });
     });
 });
