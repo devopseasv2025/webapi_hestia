@@ -1,5 +1,5 @@
 import express from "express";
-import DeviceController from "../../controller/deviceController";
+import DeviceController from "../../controller/deviceController.js";
 
 const deviceRoutes = express.Router();
 const deviceController = new DeviceController();

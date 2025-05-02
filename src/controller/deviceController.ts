@@ -1,4 +1,4 @@
-import {RegexUtils} from "../utils/regexUtils";
+import {RegexUtils} from "../utils/regexUtils.js";
 
 interface IDeviceController {
     getDevice(req: any, res: any): Response;

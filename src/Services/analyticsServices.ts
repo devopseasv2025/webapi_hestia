@@ -1,6 +1,4 @@
-import {validateNumberArray} from "../Utilities/validateData";
-import {iCalculationRequest} from "../Entities/Interfaces/iRequests";
-import {getSensorDataOnly} from "../Repository/memoryDeviceRepository";
+import {validateNumberArray} from "../Utilities/validateData.js";
 
 export default class AnalyticsServices {
 

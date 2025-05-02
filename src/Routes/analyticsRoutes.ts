@@ -1,5 +1,5 @@
 import express from "express";
-import {AnalyticsController} from "../controller/analyticsController";
+import {AnalyticsController} from "../controller/analyticsController.js";
 
 const analyticsRoutes = express.Router();
 const analyticsController = new AnalyticsController();
