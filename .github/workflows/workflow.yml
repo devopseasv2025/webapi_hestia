@@ -32,7 +32,7 @@ jobs:
         shell: bash
 
       - name: Run Stryker mutation tests
-        run: npx @stryker-mutator/core run --testRunner=jest --coverageAnalysis=perTest --reporters=html
+        run: npx @stryker-mutator/core run --testRunner=jest --coverageAnalysis=perTest --reporters=html --mutate "**/src/launch.ts"
 
       - name: Upload Stryker Report Folder Recursively
         uses: actions/upload-artifact@v4
