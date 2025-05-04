@@ -7,6 +7,8 @@ services:
       - "5342:80"
     environment:
       - ACCEPT_EULA=Y
+    volumes:
+      - seq_data:/data
 
   middleware:
     build:
@@ -21,6 +23,10 @@ services:
       port: 3000
       NODE_ENV: development
       SEQ_URL: http://seq:5341
+      MYSQL_DATABASE: deviceDB
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+
 
   mariadb:
     image: mariadb:11.2
@@ -50,3 +56,4 @@ services:
 
 volumes:
   mariadb_data:
+  seq_data:
