@@ -1,4 +1,5 @@
 import mariadb from "mariadb";
+import Logger from "../Infrastructure/Logger/logger";
 
 const pool = mariadb.createPool({
     host: "mariadb",
@@ -18,7 +19,7 @@ async function asyncFunction<T = any>(query: string, params?: any[]) {
         return rows as T;
 
     } catch(err){
-        console.log(err);
+        Logger.log(err);
         throw err;
     }finally {
         if (conn) conn.release();

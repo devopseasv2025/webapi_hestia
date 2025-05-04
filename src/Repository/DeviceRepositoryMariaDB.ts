@@ -1,6 +1,6 @@
 import {IDeviceRepository} from "./IDeviceRepository.js";
 import {asyncFunction} from "../Service/Database.js";
-import {IDevice} from "../models/IDevice";
+import {IDevice} from "../Entities/Interfaces/IDevice";
 
 export class DeviceRepositoryMariaDB implements IDeviceRepository {
 

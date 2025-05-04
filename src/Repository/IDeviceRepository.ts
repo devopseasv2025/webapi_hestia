@@ -1,4 +1,4 @@
-import {IDevice} from "../models/IDevice";
+import {IDevice} from "../Entities/Interfaces/IDevice";
 
 export interface IDeviceRepository{
     read(id: number, range: number);
