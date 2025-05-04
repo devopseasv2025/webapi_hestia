@@ -34,7 +34,6 @@ export default () => {
         headers: { 'Content-Type': 'application/json' },
     });
 
-
     http.get(url + "mac/00-B0-D0-63-C2-26", {
         headers: { 'Content-Type': 'application/json' },
     })
