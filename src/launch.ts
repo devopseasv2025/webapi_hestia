@@ -19,5 +19,4 @@ app.use('/api/analytics/', analyticsRoutes);
 
 const server = app.listen(PORT, () =>{
     Logger.info("Server service has started on port: " + PORT);
-
 })
