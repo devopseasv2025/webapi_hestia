@@ -1,4 +1,4 @@
-import { AnalyticsServices } from "../src/Services/analyticsServices";
+import { AnalyticsServices } from "../src/Service/analyticsServices";
 import {before} from "node:test";
 
 describe('AnalyticsServices', () => {

@@ -4,7 +4,7 @@ import {iCalculationRequest} from "../Entities/Interfaces/iRequests.js";
 import {isNonEmptyArray, isValidDate, isValidNumber} from "../Utilities/validateData.js";
 import {getDataByPieId} from "../Repository/memoryDeviceRepository.js";
 import {iDaoRawSensorData, iSensorData} from "../Entities/Interfaces/iSensorData.js";
-import {AnalyticsServices} from "../Services/analyticsServices.js";
+import {AnalyticsServices} from "../Service/analyticsServices";
 
 export class AnalyticsController {
 
