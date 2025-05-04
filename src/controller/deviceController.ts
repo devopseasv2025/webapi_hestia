@@ -1,5 +1,6 @@
 import {IDeviceRepository} from "../Repository/IDeviceRepository.js";
-import {RegexUtils} from "../Utilities/regexUtils";
+import {RegexUtils} from "../Utilities/regexUtils.js";
+import Logger from "../Infrastructure/Logger/logger.js";
 
 
 interface IDeviceController {
@@ -24,9 +25,6 @@ export default class DeviceController implements IDeviceController {
         }
 
         const device = await this._deviceRepository.readDeviceById(req.params.id);
-        if (!device || device.length === 0) {
-            return res.status(404).send("Device not found");
-        }
         return await res.status(200).send(device);
 
     }
@@ -43,16 +41,12 @@ export default class DeviceController implements IDeviceController {
         }
 
         const device = await this._deviceRepository.readDeviceByMacAddress(req.params.mac);
-        if (!device || device.length === 0) {
-            return res.status(404).send("Device not found");
-        }
         return await res.status(200).send(device);
     }
 
     public async getDevices(req: any, res: any): Promise<Response> {
 
         try {
-
             const devices = await this._deviceRepository.readAllDevices();
 
             if (devices.length === 0) {
@@ -62,7 +56,7 @@ export default class DeviceController implements IDeviceController {
             return res.status(200).send(devices);
 
         } catch (err) {
-            console.error("Error fetching devices: ", err);
+            Logger.error("Error fetching devices: ", err);
             return res.status(500).send("Internal server error");
         }
     }

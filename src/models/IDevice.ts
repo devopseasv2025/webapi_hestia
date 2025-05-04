@@ -1,4 +1,4 @@
-export interface Device {
+export interface IDevice {
     macAddress: string;
     IP: string;
     PORT: number;

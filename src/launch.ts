@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import cors from "cors";
 import cookieParser from 'cookie-parser';
 import Logger from "./Infrastructure/Logger/logger.js";
-import {deviceRoutes} from "./Routes/Devices/deviceRoutes.js";
+import {deviceRoutes} from "./Routes/deviceRoutes.js";
 import {analyticsRoutes} from "./Routes/analyticsRoutes.js";
 
 const app = express();
