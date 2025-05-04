@@ -22,14 +22,17 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+#
+#      - name: SonarQube Scan
+#        run: |
+#          npx sonar-scanner \
+#            -Dsonar.projectKey=${{ github.event.repository.name }} \
+#            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+#            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+#        shell: bash
 
-      - name: SonarQube Scan
-        run: |
-          npx sonar-scanner \
-            -Dsonar.projectKey=${{ github.event.repository.name }} \
-            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-        shell: bash
+      - name: ls
+        run: ls -la
 
       - name: Run Stryker mutation tests
         run: npx @stryker-mutator/core run --testRunner=jest --coverageAnalysis=perTest --reporters=html --mutate "/src/launch.ts"
