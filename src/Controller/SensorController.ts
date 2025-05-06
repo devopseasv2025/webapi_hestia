@@ -6,10 +6,6 @@ export class SensorController{
 
     private sensorRepository: SensorRepository = new SensorRepository();
 
-    constructor() {
-
-    }
-
     // @ts-ignore
     public async getSensorData(req: Request, res: Response): Promise<Response> {
 
