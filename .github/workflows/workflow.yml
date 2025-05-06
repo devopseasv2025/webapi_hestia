@@ -7,41 +7,41 @@ on:
       - feat/coverage-workflow
 
   jobs:
-  integration-unittest:
-    runs-on: ubuntu-latest
+    integration-unittest:
+      runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
+        - name: Set up Node.js
+          uses: actions/setup-node@v3
+          with:
+            node-version: '18'
 
-      - name: Install dependencies
-        run: npm install
+        - name: Install dependencies
+          run: npm install
 
-      - name: Generate Jest coverage report
-        run: npm test -- --coverage --coverageReporters=lcov
+        - name: Generate Jest coverage report
+          run: npm test -- --coverage --coverageReporters=lcov
 
-      - name: SonarQube Scan
-        run: |
-          npx sonar-scanner \
-            -Dsonar.projectKey=${{ github.event.repository.name }} \
-            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
-            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-        shell: bash
+        - name: SonarQube Scan
+          run: |
+            npx sonar-scanner \
+              -Dsonar.projectKey=${{ github.event.repository.name }} \
+              -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+              -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+              -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+          shell: bash
 
-      - name: Run Stryker mutation tests
-        run: npx @stryker-mutator/core run
+        - name: Run Stryker mutation tests
+          run: npx @stryker-mutator/core run
 
-      - name: Upload Stryker Report Folder Recursively
-        uses: actions/upload-artifact@v4
-        with:
-          name: Stryker Report
-          path: reports/mutation/**
+        - name: Upload Stryker Report Folder Recursively
+          uses: actions/upload-artifact@v4
+          with:
+            name: Stryker Report
+            path: reports/mutation/**
 #
 #  Delivery-load-testing:
 #    needs: [ integration-unittest ]
