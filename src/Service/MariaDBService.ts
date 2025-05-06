@@ -26,7 +26,7 @@ export class MariaDBService implements IMariaDBService {
             user: process.env.MYSQL_USER || "root",
             password: process.env.MYSQL_PASSWORD || "<PASSWORD>",
             database: process.env.MYSQL_DATABASE || "deviceDB",
-            connectionLimit: Number(process.env.MYSQL_CONNECTION_LIMIT) || 5,
+            connectionLimit: Number(process.env.MYSQL_CONNECTION_LIMIT) || 50,
             connectTimeout: 10000,
             acquireTimeout: 10000,
         });
