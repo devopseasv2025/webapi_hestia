@@ -62,6 +62,8 @@ jobs:
       - name: Run Docker Compose
         run: |
           docker compose -f docker-compose.yml up -d --build --remove-orphans
+      
+      
 
       - name: Run k6 spike test (Docker)
         run: |
