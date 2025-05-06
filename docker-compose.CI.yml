@@ -62,4 +62,5 @@ volumes:
 
 networks:
   default:
-    name: test-net
+    external:
+      name: test-net

@@ -56,7 +56,7 @@ jobs:
 
       - name: Run Docker Compose
         run: |
-          docker compose -f docker-compose.yml up -d --build --remove-orphans
+          docker compose -f docker-compose.CI.yml up -d --build --remove-orphans
   
   
 
