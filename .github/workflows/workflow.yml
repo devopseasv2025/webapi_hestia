@@ -51,23 +51,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Build local Docker image
-        run: |
-          docker build -t local-api:latest -f Dockerfile .
+      - name: Create Docker network
+        run: docker network create test-net || true
 
-      - name: Run API container locally
+      - name: Run Docker Compose
         run: |
-          docker run -d --name api-container -p 3000:3000 local-api:latest
-          sleep 5  # Wait for service to start
+          docker compose -f docker-compose.yml up -d --build --remove-orphans
+  
+  
 
       - name: Run k6 spike test (Docker)
         run: |
-          docker run --network host -v ${{ github.workspace }}/k6:/scripts grafana/k6 run /scripts/scripts/spike_test.js
-
-      - name: Stop and clean up API container
-        run: |
-          docker stop api-container
-          docker rm api-container
+          docker run --rm --network test-net \
+            -v ${{ github.workspace }}/k6:/scripts \
+            grafana/k6 run /scripts/scripts/spike_test.js
+      - name: Stop and clean up containers
+        run: docker compose down
 
   Deployment:
     needs: [ Delivery-load-testing ]
