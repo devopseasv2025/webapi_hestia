@@ -46,39 +46,30 @@ jobs:
 
 
 
+
+
   Delivery-load-testing:
+#    needs: [ integration-unittest ]
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Create Docker network
-        run: docker network create test-net || true
-
-      - name: Run Docker Compose (i netværket)
+      - name: Running docker instance.
         run: |
-          docker compose -f docker-compose.yml up -d --remove-orphans
+          docker compose -f docker-compose.yml up -d --build
+            sleep 10  # Wait for the container to start
 
-      - name: Wait for middleware to be ready
+      - name: Run k6 spike test (Docker)
         run: |
-          for i in {1..10}; do
-            if curl -s http://localhost:3000/health; then
-              echo "Middleware is ready!"
-              break
-            fi
-            echo "Waiting for middleware..."
-            sleep 3
-          done
+          docker run -v ${{ github.workspace }}/k6:/scripts grafana/k6 run /scripts/scripts/spike_test.js
 
-      - name: Run k6 spike test (i netværket)
+      - name: Stop and clean up API container
         run: |
-          docker run --rm --network test-net \
-            -v ${{ github.workspace }}/k6:/scripts \
-            grafana/k6 run /scripts/scripts/spike_test.js
+          docker stop api-container
+          docker rm api-container
 
-      - name: Stop and clean up containers
-        run: docker compose down
 
 #
 #  Deployment:
