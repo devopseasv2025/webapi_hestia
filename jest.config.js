@@ -1,7 +1,4 @@
-// jest.config.ts
-import type { Config } from 'jest';
-
-const config: Config = {
+const config = {
     preset: 'ts-jest',
     testEnvironment: 'node',
     moduleFileExtensions: ['ts', 'js'],
@@ -11,7 +8,14 @@ const config: Config = {
     collectCoverage: true,
     collectCoverageFrom: ["./src/**"],
     coverageReporters: ['html', 'lcov'],
-    coverageDirectory: './coverage'
+    coverageDirectory: './coverage',
+    coveragePathIgnorePatterns: [
+        '/node_modules/',
+        '/src/Infrastructure/Logger/logger.ts',
+        '/src/Routes/',
+        '/src/Controller/',
+        '/src/Repository',
+    ],
 
 };
 

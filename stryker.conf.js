@@ -18,7 +18,7 @@ export default {
     reporters: ["html", "clear-text", "progress"],
     jest: {
         projectType: "custom",
-        configFile: "jest.config.ts",
+        configFile: "jest.config.js",
         enableFindRelatedTests: true
     }
 }
