@@ -1,11 +1,12 @@
 import mariadb from "mariadb";
+import Logger from "../Infrastructure/Logger/logger.js";
 
 const pool = mariadb.createPool({
     host: "mariadb",
     port: 3306,
-    user: "user",
-    password:"pass",
-    database:"deviceDB",
+    user: process.env.MYSQL_USER || "root",
+    password: process.env.MYSQL_PASSWORD || "<PASSWORD>",
+    database:process.env.MYSQL_DATABASE || "deviceDB",
     connectionLimit: 5
 });
 
@@ -15,11 +16,10 @@ async function asyncFunction<T = any>(query: string, params?: any[]) {
 
         conn = await pool.getConnection();
         const rows = await conn.query(query, params);
-        console.table(rows);
         return rows as T;
 
     } catch(err){
-        console.log(err);
+        Logger.log(err);
         throw err;
     }finally {
         if (conn) conn.release();

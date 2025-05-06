@@ -4,9 +4,80 @@ on:
     branches:
       - master
       - main
+      - feat/striker
 
 jobs:
+
+  integration-unittest:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: SonarQube Scan
+        run: |
+          npx sonar-scanner \
+            -Dsonar.projectKey=${{ github.event.repository.name }} \
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        shell: bash
+
+      - name: Run Stryker mutation tests
+        run: npx @stryker-mutator/core run --testRunner=jest --coverageAnalysis=perTest --reporters=html
+
+      - name: Upload Stryker Report Folder Recursively
+        uses: actions/upload-artifact@v4
+        with:
+          name: Stryker Report
+          path: reports/mutation/**
+
+      - name: Run Jest tests
+        run: npm test -- --coverage
+
+
+
+
+
+
+  Delivery-load-testing:
+    needs: [ integration-unittest ]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build local Docker image
+        run: |
+          docker build -t local-api:latest -f Dockerfile .
+
+      - name: Run API container locally
+        run: |
+          docker run -d --name api-container -p 3000:3000 local-api:latest
+          sleep 5  # Wait for service to start
+
+      - name: Run k6 spike test (Docker)
+        run: |
+          docker run --network host -v ${{ github.workspace }}/k6:/scripts grafana/k6 run /scripts/scripts/spike_test.js
+
+      - name: Stop and clean up API container
+        run: |
+          docker stop api-container
+          docker rm api-container
+
+
+
   Deployment:
+    needs: [ Delivery-load-testing ]
     runs-on: ubuntu-latest
     steps:
 
