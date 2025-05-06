@@ -4,7 +4,7 @@ on:
     branches:
       - master
       - main
-      - feat/striker
+      - feat/coverage-workflow
 
 jobs:
 
@@ -41,7 +41,7 @@ jobs:
           path: reports/mutation/**
 
       - name: Run Jest tests
-        run: npm test -- --coverage
+        run: npm test -- --coverage --coverageReporters=text-lcov
 
   Delivery-load-testing:
     needs: [ integration-unittest ]
