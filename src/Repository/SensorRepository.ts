@@ -1,8 +1,11 @@
 import { ISensorRepository } from "./ISensorRepository.js";
-import {asyncFunction} from "../Service/Database.js";
 import * as QueryString from "node:querystring";
+import {IMariaDBService, MariaDBService} from "../Service/MariaDBService.js";
+
 
 export class SensorRepository implements ISensorRepository {
+
+    private databaseService : IMariaDBService = new MariaDBService();
 
     // @ts-ignore
     async readAllSensors(id: string | QueryString.ParsedQs | (string | QueryString.ParsedQs)[], range: string | QueryString.ParsedQs | (string | QueryString.ParsedQs)[]) {
@@ -17,7 +20,7 @@ export class SensorRepository implements ISensorRepository {
 
         var query = "SELECT * FROM device_data WHERE PIE_ID = ? AND DATE <= ? AND DATE >= ?";
 
-        return await asyncFunction(query, [id, todaysDateString, dateRangeString]);
+        return await this.databaseService.query(query, [id, todaysDateString, dateRangeString]);
     }
 
 }

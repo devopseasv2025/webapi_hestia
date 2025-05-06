@@ -61,6 +61,5 @@ volumes:
   seq_data:
 
 networks:
-  default:
-    external:
-      name: test-net
+  test-net:
+    driver: bridge

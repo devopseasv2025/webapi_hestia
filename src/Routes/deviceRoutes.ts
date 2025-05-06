@@ -1,8 +1,8 @@
 import express from "express";
-import DeviceController from "../controller/deviceController.js";
+import DeviceController from "../Controller/deviceController.js";
 import {DeviceRepositoryMariaDB} from "../Repository/DeviceRepositoryMariaDB.js";
 import {MariaDBService} from "../Service/MariaDBService.js";
-import {SensorController} from "../Controller/SensorController";
+import {SensorController} from "../Controller/SensorController.js";
 
 const deviceRoutes = express.Router();
 const mariaDBService = new MariaDBService();
