@@ -4,7 +4,7 @@ import {IDevice} from "../Entities/Interfaces/IDevice";
 
 export class DeviceRepositoryMariaDB implements IDeviceRepository {
 
-    read(id: number, range: number) {
+    async read(id: number, range: number) {
         throw new Error("Method not implemented.");
     }
 
