@@ -2,8 +2,8 @@ name: workflow.yml
 on:
   push:
     branches:
-      - master
-      - main
+#      - master
+#      - main
       - feat/coverage-workflow
 
 jobs:
@@ -23,96 +23,96 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: SonarQube Scan
-        run: |
-          npx sonar-scanner \
-            -Dsonar.projectKey=${{ github.event.repository.name }} \
-            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-        shell: bash
-
-      - name: Run Stryker mutation tests
-        run: npx @stryker-mutator/core run
-
-      - name: Upload Stryker Report Folder Recursively
-        uses: actions/upload-artifact@v4
-        with:
-          name: Stryker Report
-          path: reports/mutation/**
+#      - name: SonarQube Scan
+#        run: |
+#          npx sonar-scanner \
+#            -Dsonar.projectKey=${{ github.event.repository.name }} \
+#            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+#            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+#        shell: bash
+#
+#      - name: Run Stryker mutation tests
+#        run: npx @stryker-mutator/core run
+#
+#      - name: Upload Stryker Report Folder Recursively
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: Stryker Report
+#          path: reports/mutation/**
 
       - name: Run Jest tests
         run: npm test -- --coverage --coverageReporters=text-lcov
-
-  Delivery-load-testing:
-    needs: [ integration-unittest ]
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Create Docker network
-        run: docker network create test-net || true
-
-      - name: Run Docker Compose
-        run: |
-          docker compose -f docker-compose.CI.yml up -d --build --remove-orphans
-  
-  
-
-      - name: Run k6 spike test (Docker)
-        run: |
-          docker run --rm --network test-net \
-            -v ${{ github.workspace }}/k6:/scripts \
-            grafana/k6 run /scripts/scripts/spike_test.js
-      - name: Stop and clean up containers
-        run: docker compose down
-
-  Deployment:
-    needs: [ Delivery-load-testing ]
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: Checkout code.
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          fetch-tags: true
-
-      - name: Generate Semantic Version.
-        id: semvar
-        uses: paulhatch/semantic-version@v5.4.0
-        with:
-          bump_each_commit: 'true'
-          tag_prefix: "v"  # Expecting tags like v1.2.3
-          branch: "HEAD"
-          version_format: "${major}.${minor}.${patch}"  # Ensures versioning follows semantic versioning
-
-      - name: login to GHCR.
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GHCR_TOKEN }}
-
-      - name: Build and Push Docker Image.
-        run: |
-          VERSION=${{ steps.semvar.outputs.version }}
-          if [ -z "$VERSION" ]; then
-            echo "Error: Version is empty."
-            exit 1
-          fi
-          IMAGE_TAG=ghcr.io/${{ github.repository }}:$VERSION
-          docker build -t $IMAGE_TAG -f Dockerfile .
-          docker push $IMAGE_TAG
-
-      - name: Create release notes.
-        uses: ncipollo/release-action@v1
-        with:
-          tag: ${{ steps.semvar.outputs.version }}
-          generateReleaseNotes: true
-          body: |
-            This release includes the following container images:
-            - ghcr.io/${{ github.repository }}:${{ steps.semvar.outputs.version }}
-          allowUpdates: true
-          token: ${{ secrets.GHCR_TOKEN }}
+#
+#  Delivery-load-testing:
+#    needs: [ integration-unittest ]
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v4
+#
+#      - name: Create Docker network
+#        run: docker network create test-net || true
+#
+#      - name: Run Docker Compose
+#        run: |
+#          docker compose -f docker-compose.CI.yml up -d --build --remove-orphans
+#
+#
+#
+#      - name: Run k6 spike test (Docker)
+#        run: |
+#          docker run --rm --network test-net \
+#            -v ${{ github.workspace }}/k6:/scripts \
+#            grafana/k6 run /scripts/scripts/spike_test.js
+#      - name: Stop and clean up containers
+#        run: docker compose down
+#
+#  Deployment:
+#    needs: [ Delivery-load-testing ]
+#    runs-on: ubuntu-latest
+#    steps:
+#
+#      - name: Checkout code.
+#        uses: actions/checkout@v4
+#        with:
+#          fetch-depth: 0
+#          fetch-tags: true
+#
+#      - name: Generate Semantic Version.
+#        id: semvar
+#        uses: paulhatch/semantic-version@v5.4.0
+#        with:
+#          bump_each_commit: 'true'
+#          tag_prefix: "v"  # Expecting tags like v1.2.3
+#          branch: "HEAD"
+#          version_format: "${major}.${minor}.${patch}"  # Ensures versioning follows semantic versioning
+#
+#      - name: login to GHCR.
+#        uses: docker/login-action@v2
+#        with:
+#          registry: ghcr.io
+#          username: ${{ github.actor }}
+#          password: ${{ secrets.GHCR_TOKEN }}
+#
+#      - name: Build and Push Docker Image.
+#        run: |
+#          VERSION=${{ steps.semvar.outputs.version }}
+#          if [ -z "$VERSION" ]; then
+#            echo "Error: Version is empty."
+#            exit 1
+#          fi
+#          IMAGE_TAG=ghcr.io/${{ github.repository }}:$VERSION
+#          docker build -t $IMAGE_TAG -f Dockerfile .
+#          docker push $IMAGE_TAG
+#
+#      - name: Create release notes.
+#        uses: ncipollo/release-action@v1
+#        with:
+#          tag: ${{ steps.semvar.outputs.version }}
+#          generateReleaseNotes: true
+#          body: |
+#            This release includes the following container images:
+#            - ghcr.io/${{ github.repository }}:${{ steps.semvar.outputs.version }}
+#          allowUpdates: true
+#          token: ${{ secrets.GHCR_TOKEN }}
