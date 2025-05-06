@@ -15,8 +15,9 @@ export class SensorController{
 
         try{
             const id = req.params?.id;
+            const range = req.params?.range;
 
-            const result = await this.sensorRepository.readAllSensors(req.query.id, req.query.range);
+            const result = await this.sensorRepository.readAllSensors(id, range);
 
             return res.send(result);
         }catch(err){
