@@ -1,4 +1,4 @@
-import {IDevice} from "../Entities/Interfaces/IDevice";
+import {IDevice} from "../Entities/Interfaces/IDevice.js";
 
 export interface IDeviceRepository{
     read(id: number, range: number);

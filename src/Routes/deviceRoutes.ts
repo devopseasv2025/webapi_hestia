@@ -1,8 +1,6 @@
 import express from "express";
-import { asyncFunction } from "../../Service/Database.js";
-import {SensorController} from "../../Controller/SensorController";
-import DeviceController from "../controller/deviceController.js";
-import {asyncFunction} from "../Service/Database.js";
+import {SensorController} from "../Controller/SensorController.js";
+import DeviceController from "../Controller/deviceController.js";
 import {DeviceRepositoryMariaDB} from "../Repository/DeviceRepositoryMariaDB.js";
 
 const deviceRoutes = express.Router();
@@ -16,7 +14,7 @@ deviceRoutes.get("/id/:id", getDeviceById);
 deviceRoutes.get("/mac/:mac", getDeviceByMac);
 deviceRoutes.get("/", getDevices);
 
-deviceRoutes.get("/senor", (req, res) =>
+deviceRoutes.get("/sensor", (req, res) =>
     sensorController.getSensorData(req, res));
 
 

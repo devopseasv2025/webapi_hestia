@@ -1,5 +1,5 @@
-import { ISensorRepository } from "./ISensorRepository";
-import {asyncFunction} from "../Service/Database";
+import { ISensorRepository } from "./ISensorRepository.js";
+import {asyncFunction} from "../Service/Database.js";
 import * as QueryString from "node:querystring";
 
 export class SensorRepository implements ISensorRepository {
@@ -15,7 +15,7 @@ export class SensorRepository implements ISensorRepository {
         dateRange.setDate(todaysDate.getDate() - (<number><unknown>range));
         let dateRangeString = dateRange.toISOString().split("T")[0];
 
-        var query = "SELECT TEMP FROM device_data WHERE PIE_ID = ? AND DATE <= ? AND DATE >= ?";
+        var query = "SELECT * FROM device_data WHERE PIE_ID = ? AND DATE <= ? AND DATE >= ?";
 
         return await asyncFunction(query, [id, todaysDateString, dateRangeString]);
     }
