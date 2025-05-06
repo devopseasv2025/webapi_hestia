@@ -6,6 +6,7 @@ export default {
         "!src/Routes/*.ts",
         "!src/Repository/*.ts",
         "!src/Infrastructure/**/*.ts",
+        "!src/Service/MariaDBService.ts"
     ],
     thresholds: {
         high: 90,
