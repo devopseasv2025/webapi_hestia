@@ -8,7 +8,7 @@ import {AnalyticsServices} from "../Service/analyticsServices.js";
 
 export class AnalyticsController {
 
-    public calculateRequest(req: express.Request, res: express.Response) {
+    public async calculateRequest(req: express.Request, res: express.Response) {
         let request = req.body as iCalculationRequest;
 
         if( this.validateSensorData(req, res) === res.status(400)){
