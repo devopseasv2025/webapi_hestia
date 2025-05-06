@@ -1,22 +1,22 @@
 import Logger from "../Infrastructure/Logger/logger.js";
 import express from "express";
-import {iCalculationRequest} from "../Entities/Interfaces/iRequests.js";
+import {ICalculationRequest} from "../Entities/Interfaces/ICalculationRequest";
 import {isNonEmptyArray, isValidDate, isValidNumber} from "../Utilities/validateData.js";
 import {getDataByPieId} from "../Repository/memoryDeviceRepository.js";
-import {iDaoRawSensorData, iSensorData} from "../Entities/Interfaces/iSensorData.js";
+import {IDaoRawSensorData, ISensorData} from "../Entities/Interfaces/ISensorData";
 import {AnalyticsServices} from "../Service/analyticsServices.js";
 
 export class AnalyticsController {
 
     public async calculateRequest(req: express.Request, res: express.Response) {
-        let request = req.body as iCalculationRequest;
+        let request = req.body as ICalculationRequest;
 
         if( this.validateSensorData(req, res) === res.status(400)){
             return res.send
         }
 
         //TODO: IMPLEMENT ACTUAL REPO HERE!!!
-        const dataMemory: iSensorData[] = getDataByPieId(request.PIE_ID);
+        const dataMemory: ISensorData[] = getDataByPieId(request.PIE_ID);
         //PIE_ID, DAYS_BACK
         //END TODO
 
@@ -27,7 +27,7 @@ export class AnalyticsController {
 
         for (const field of sensorFields) {
             sensorValuesMap[field] = dataMemory
-                .map(entry => entry[field.toUpperCase() as keyof iDaoRawSensorData])
+                .map(entry => entry[field.toUpperCase() as keyof IDaoRawSensorData])
                 .filter(value => typeof value === "number") as number[];
         }
 
@@ -69,7 +69,7 @@ export class AnalyticsController {
     }
 
     private validateSensorData(req: express.Request, res: express.Response) {
-        const request = req.body as iCalculationRequest;
+        const request = req.body as ICalculationRequest;
 
         // Check if PIE_ID is a valid number
         if (!isValidNumber(request.PIE_ID)) {

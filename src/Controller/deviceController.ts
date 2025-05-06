@@ -10,7 +10,7 @@ interface IDeviceController {
 }
 
 export default class DeviceController implements IDeviceController {
-    private _deviceRepository: IDeviceRepository;
+    private readonly _deviceRepository: IDeviceRepository;
 
     constructor(deviceRepository: IDeviceRepository) {
         this._deviceRepository = deviceRepository;

@@ -1,4 +1,4 @@
-export interface iCalculationRequest {
+export interface ICalculationRequest {
     PIE_ID: number,
     SENSOR: string[],
     CALCULATION: string[],
