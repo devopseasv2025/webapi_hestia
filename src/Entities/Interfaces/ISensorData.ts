@@ -1,4 +1,4 @@
-export interface iSensorData {
+export interface ISensorData {
     ID: number,
     PIE_ID: number,
     TEMP: number,
@@ -9,7 +9,7 @@ export interface iSensorData {
     DATE: Date,
 }
 
-export interface iDaoRawSensorData {
+export interface IDaoRawSensorData {
     TEMP: number,
     AIR_HUMID: number,
     PPM: number,

@@ -1,6 +1,6 @@
-import { iSensorData, iDaoRawSensorData } from "../Entities/Interfaces/iSensorData";
+import { ISensorData, IDaoRawSensorData } from "../Entities/Interfaces/ISensorData";
 
-const mockdb: iSensorData[] = [
+const mockdb: ISensorData[] = [
     {"ID": 1, "PIE_ID": 1, "TEMP": 21.7, "AIR_HUMID": 63.68, "PPM": 520.16, "SOIL_MOISTURE": 88.12, "PRESSURE": 1015.84, "DATE": new Date("2025-04-29T12:56:25")},
     {"ID": 2, "PIE_ID": 1, "TEMP": 23.59, "AIR_HUMID": 57.6, "PPM": 813.41, "SOIL_MOISTURE": 26.3, "PRESSURE": 985.01, "DATE": new Date("2025-04-29T11:56:25")},
     {"ID": 3, "PIE_ID": 1, "TEMP": 21.3, "AIR_HUMID": 38.38, "PPM": 564.43, "SOIL_MOISTURE": 66.53, "PRESSURE": 985.82, "DATE": new Date("2025-04-29T10:56:25")},
@@ -23,11 +23,11 @@ const mockdb: iSensorData[] = [
     {"ID": 10, "PIE_ID": 2, "TEMP": 26.08, "AIR_HUMID": 46.83, "PPM": 423.67, "SOIL_MOISTURE": 59.56, "PRESSURE": 984.68, "DATE": new Date("2025-04-29T03:56:25")}
 ]
 
-export function getDataByPieId(pieId: number): iSensorData[] {
+export function getDataByPieId(pieId: number): ISensorData[] {
     return mockdb.filter(sensorData => sensorData.PIE_ID === pieId);
 }
 
-export function getSensorDataOnly(): iDaoRawSensorData[] {
+export function getSensorDataOnly(): IDaoRawSensorData[] {
     return mockdb
         .map(sensorData => ({
             TEMP: sensorData.TEMP,
