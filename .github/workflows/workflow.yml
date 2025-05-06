@@ -56,13 +56,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Build local Docker image
-        run: |
-          docker build -t local-api:latest -f Dockerfile .
-
       - name: Run Docker Compose
         run: |
-          docker-compose -f docker-compose.yml up -d
+          docker compose -f docker-compose.yml up -d
           sleep 5  # Wait for services to start
 
       - name: Run k6 spike test (Docker)
@@ -71,9 +67,7 @@ jobs:
 
       - name: Stop and clean up API container
         run: |
-          docker stop api-container
-          docker rm api-container
-
+          docker compose down
 
 #
 #  Deployment:
