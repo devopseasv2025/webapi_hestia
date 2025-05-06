@@ -8,6 +8,8 @@ export default {
         "!src/Infrastructure/**/*.ts",
     ],
     thresholds: {
+        high: 90,
+        low: 80,
         break: 80
     },
     testRunner: "jest",
