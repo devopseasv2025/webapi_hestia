@@ -27,3 +27,4 @@ async function asyncFunction<T = any>(query: string, params?: any[]) {
 }
 
 export {asyncFunction};
+

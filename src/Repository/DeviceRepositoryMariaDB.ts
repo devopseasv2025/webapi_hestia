@@ -1,23 +1,29 @@
 import {IDeviceRepository} from "./IDeviceRepository.js";
-import {asyncFunction} from "../Service/Database.js";
 import {IDevice} from "../Entities/Interfaces/IDevice";
+import {IMariaDBService} from "../Service/MariaDBService.js";
 
 export class DeviceRepositoryMariaDB implements IDeviceRepository {
+
+    protected readonly database : IMariaDBService
+
+    constructor(databseService: IMariaDBService) {
+        this.database = databseService;
+    }
 
     read(id: number, range: number) {
         throw new Error("Method not implemented.");
     }
 
     async readAllDevices() : Promise<IDevice[]>  {
-        return await asyncFunction<IDevice[]>("SELECT * FROM deviceDB.devices")
+        return await this.database.query<IDevice[]>("SELECT * FROM deviceDB.devices")
     }
 
     async readDeviceById(id: number) : Promise<IDevice> {
-        return await asyncFunction<IDevice>("SELECT * FROM deviceDB.devices WHERE PIE_ID = ?", [id])
+        return await this.database.query<IDevice>("SELECT * FROM deviceDB.devices WHERE PIE_ID = ?", [id])
     }
 
     async readDeviceByMacAddress(macAddress: string) : Promise<IDevice> {
-        return await asyncFunction<IDevice>("SELECT * FROM deviceDB.devices WHERE MAC = ?", [macAddress])
+        return await this.database.query<IDevice>("SELECT * FROM deviceDB.devices WHERE MAC = ?", [macAddress])
     }
 
 }
