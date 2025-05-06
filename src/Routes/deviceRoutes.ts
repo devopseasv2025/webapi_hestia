@@ -1,5 +1,5 @@
 import express from "express";
-import DeviceController from "../controller/deviceController.js";
+import DeviceController from "../Controller/deviceController.js";
 import {asyncFunction} from "../Service/Database.js";
 import {DeviceRepositoryMariaDB} from "../Repository/DeviceRepositoryMariaDB.js";
 
