@@ -56,18 +56,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Run Docker Compose
-        run: |
-          docker compose -f docker-compose.yml up -d
-          sleep 5  # Wait for services to start
+      - name: Create Docker network
+        run: docker network create test-net
 
-      - name: Run k6 spike test (Docker)
+      - name: Run Docker Compose (i netværket)
         run: |
-          docker run --network host -v ${{ github.workspace }}/k6:/scripts grafana/k6 run /scripts/scripts/spike_test.js
+          docker compose -f docker-compose.yml up -d --remove-orphans
+          docker network connect test-net delivery-api
+          sleep 5
 
-      - name: Stop and clean up API container
+      - name: Run k6 spike test (i netværket)
         run: |
-          docker compose down
+          docker run --rm --network test-net \
+            -v ${{ github.workspace }}/k6:/scripts \
+            grafana/k6 run /scripts/scripts/spike_test.js
 
 #
 #  Deployment:
