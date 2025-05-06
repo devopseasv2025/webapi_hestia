@@ -23,7 +23,7 @@ export let options = {
 
 export default () => {
 
-    const url = `http://localhost:3000/api/devices/`;
+    const url = 'http://middleware:3000/api/devices/id/1';
     http.get(url + "id/1", {
         headers: { 'Content-Type': 'application/json' },
     });
