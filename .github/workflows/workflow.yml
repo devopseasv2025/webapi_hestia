@@ -46,39 +46,39 @@ jobs:
 
 
 
-Delivery-load-testing:
-  runs-on: ubuntu-latest
+  Delivery-load-testing:
+    runs-on: ubuntu-latest
 
-  steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Create Docker network
-      run: docker network create test-net || true
+      - name: Create Docker network
+        run: docker network create test-net || true
 
-    - name: Run Docker Compose (i netværket)
-      run: |
-        docker compose -f docker-compose.yml up -d --remove-orphans
+      - name: Run Docker Compose (i netværket)
+        run: |
+          docker compose -f docker-compose.yml up -d --remove-orphans
 
-    - name: Wait for middleware to be ready
-      run: |
-        for i in {1..10}; do
-          if curl -s http://localhost:3000/health; then
-            echo "Middleware is ready!"
-            break
-          fi
-          echo "Waiting for middleware..."
-          sleep 3
-        done
+      - name: Wait for middleware to be ready
+        run: |
+          for i in {1..10}; do
+            if curl -s http://localhost:3000/health; then
+              echo "Middleware is ready!"
+              break
+            fi
+            echo "Waiting for middleware..."
+            sleep 3
+          done
 
-    - name: Run k6 spike test (i netværket)
-      run: |
-        docker run --rm --network test-net \
-          -v ${{ github.workspace }}/k6:/scripts \
-          grafana/k6 run /scripts/scripts/spike_test.js
+      - name: Run k6 spike test (i netværket)
+        run: |
+          docker run --rm --network test-net \
+            -v ${{ github.workspace }}/k6:/scripts \
+            grafana/k6 run /scripts/scripts/spike_test.js
 
-    - name: Stop and clean up containers
-      run: docker compose down
+      - name: Stop and clean up containers
+        run: docker compose down
 
 #
 #  Deployment:
