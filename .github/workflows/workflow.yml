@@ -60,10 +60,10 @@ jobs:
         run: |
           docker build -t local-api:latest -f Dockerfile .
 
-      - name: Run API container locally
+      - name: Run Docker Compose
         run: |
-          docker run -d --name api-container -p 3000:3000 local-api:latest
-          sleep 5  # Wait for service to start
+          docker-compose -f docker-compose.yml up -d
+          sleep 5  # Wait for services to start
 
       - name: Run k6 spike test (Docker)
         run: |
