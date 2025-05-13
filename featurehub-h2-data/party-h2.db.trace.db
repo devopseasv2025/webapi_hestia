@@ -1,0 +1,3 @@
+2025-05-13 07:05:48.787452Z jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DB_MIGRATION" not found (this database is empty); SQL statement:
+select mchecksum, mversion from db_migration [42104-230]
