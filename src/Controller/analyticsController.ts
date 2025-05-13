@@ -5,10 +5,20 @@ import {isNonEmptyArray, isValidDate, isValidNumber} from "../Utilities/validate
 import {getDataByPieId} from "../Repository/memoryDeviceRepository.js";
 import {IDaoRawSensorData, ISensorData} from "../Entities/Interfaces/ISensorData";
 import {AnalyticsServices} from "../Service/analyticsServices.js";
+import {initialize} from "unleash-client";
 
 export class AnalyticsController {
 
     public async calculateRequest(req: express.Request, res: express.Response) {
+
+        const unleash = initialize({
+            url: 'http://unleash:4242/api/',
+            appName: 'unleash-onboarding-node',
+            customHeaders: {
+                Authorization: 'default:development.1817e5f7e650c7a94a275a678a1c9fb69ccf2601245cb83f5fa22f49' // in production use environment variable
+            },
+        });
+
         let request = req.body as ICalculationRequest;
 
         if( this.validateSensorData(req, res) === res.status(400)){
@@ -51,7 +61,11 @@ export class AnalyticsController {
                             sensorValuesMap[`${sensorField}_max`] = [anaService.max(values)];
                             break;
                         case "COUNT":
-                            sensorValuesMap[`${sensorField}_count`] = [anaService.count(values)];
+                            if ( unleash.isEnabled('count') ) {
+                                sensorValuesMap[`${sensorField}_count`] = [anaService.count(values)];
+                            } else {
+                                Logger.warn(`Feature flag 'count' is disabled. Skipping count calculation for ${sensorField}.`);
+                            }
                             break;
                         default:
                             Logger.error(`Unknown calculation type: ${field}`);

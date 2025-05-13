@@ -35,6 +35,7 @@
     "redis": "^4.7.0",
     "ts-custom-error": "^3.3.1",
     "ts-node": "^10.9.2",
+    "unleash-client": "^6.6.0",
     "winston": "^3.17.0"
   },
   "devDependencies": {
