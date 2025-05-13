@@ -16,7 +16,7 @@ export class AnalyticsController {
         try {
             const fhConfig = new EdgeFeatureHubConfig(
                 "http://featurehub:8085",
-                "e545216c-a370-4f6e-a389-f6e6edb67cd8/ArtHAYoTsGiA3LC9lEF2crPNnYVUgrRDQFFL4KUb"
+                "522a9a3e-a678-4182-8f1a-263c0ab62903/Nl0mz1oIkODS9NTedFu3kBPd2vdKyLHRSmTVFd1c"
             );
 
             const clientContext = fhConfig.newContext();
