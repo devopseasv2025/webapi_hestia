@@ -3,6 +3,8 @@ import {AnalyticsController} from "../Controller/analyticsController.js";
 
 const analyticsRoutes = express.Router();
 const analyticsController = new AnalyticsController();
+await analyticsController.init();
+
 
 analyticsRoutes.post("/", (req, res) => analyticsController.calculateRequest(req, res));
 

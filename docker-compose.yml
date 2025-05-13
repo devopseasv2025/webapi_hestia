@@ -12,6 +12,14 @@ services:
     volumes:
       - seq_data:/data
 
+  featurehub:
+    image: featurehub/party-server:latest
+    restart: always
+    volumes:
+      - featurehub-h2-data:/db
+    ports:
+      - "8085:8085"
+
   middleware:
     build:
       context: .
@@ -19,6 +27,7 @@ services:
     depends_on:
       - seq
       - mariadb
+      - featurehub
     restart: on-failure
     ports:
       - "3000:3000"
@@ -59,6 +68,7 @@ services:
 volumes:
   mariadb_data:
   seq_data:
+  featurehub-h2-data:
 
 networks:
   default:

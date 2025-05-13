@@ -5,8 +5,55 @@ import {isNonEmptyArray, isValidDate, isValidNumber} from "../Utilities/validate
 import {getDataByPieId} from "../Repository/memoryDeviceRepository.js";
 import {IDaoRawSensorData, ISensorData} from "../Entities/Interfaces/ISensorData";
 import {AnalyticsServices} from "../Service/analyticsServices.js";
+import { EdgeFeatureHubConfig, Readyness, ClientContext } from "featurehub-javascript-client-sdk";
 
 export class AnalyticsController {
+
+    private client: any = null;
+    private ready: any = false;
+
+    public async init(): Promise<void> {
+        try {
+            const fhConfig = new EdgeFeatureHubConfig(
+                "http://featurehub:8085",
+                "e545216c-a370-4f6e-a389-f6e6edb67cd8/ArtHAYoTsGiA3LC9lEF2crPNnYVUgrRDQFFL4KUb"
+            );
+
+            const clientContext = fhConfig.newContext();
+            await clientContext.build();
+            this.client = clientContext;
+
+            fhConfig.addReadynessListener((readyness) => {
+                if (readyness === Readyness.Ready) {
+                    this.ready = true;
+                }
+            });
+
+        } catch (error) {
+            Logger.error("Failed to initialize FeatureHub:", error);
+            throw error;
+        }
+    }
+
+    public getFeatureBoolean(key: string, defaultValue: boolean = false): boolean {
+        if (this.ready) {
+            Logger.info("FeatureHub not ready, returning default", { key, defaultValue });
+            return defaultValue;
+        }
+
+        try {
+
+            const value = this.client.feature(key).getBoolean();
+            Logger.info(`Feature Boolean ${value}`);
+            return value ?? defaultValue;
+        } catch (error) {
+            Logger.error(`Error getting boolean feature "${key}":`, error);
+            return defaultValue;
+        }
+    }
+
+
+
 
     public async calculateRequest(req: express.Request, res: express.Response) {
         let request = req.body as ICalculationRequest;
@@ -51,7 +98,15 @@ export class AnalyticsController {
                             sensorValuesMap[`${sensorField}_max`] = [anaService.max(values)];
                             break;
                         case "COUNT":
-                            sensorValuesMap[`${sensorField}_count`] = [anaService.count(values)];
+                            const value = this.getFeatureBoolean("CountFeature")
+                            if (this.getFeatureBoolean("CountFeature")){
+                                sensorValuesMap[`${sensorField}_count`] = [anaService.count(values)];
+                            } else{
+                                sensorValuesMap[`${sensorField}_count`] = [0];
+                                Logger.info("Count calculation is turned off.")
+                                Logger.info(`Readiness ${this.ready}`)
+                                Logger.info(value);
+                            }
                             break;
                         default:
                             Logger.error(`Unknown calculation type: ${field}`);
