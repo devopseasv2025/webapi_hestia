@@ -11,6 +11,17 @@ export class AnalyticsController {
 
     public async calculateRequest(req: express.Request, res: express.Response) {
 
+        // In the real world a combination of a enviroment file and a github secret would be used.
+        // In our case where we have NO PLANS for production we'll skip this step to ease development.
+        // What I would of done, would be make a .env file with the following content:
+        // UNLEASH_API_KEY=default:development.1817e5f7e650c7a94a275a678a1c9fb69ccf2601245cb83f5fa22f49
+        // And then use the dotenv package to load it into the process.env object.
+        // import dotenv from 'dotenv';
+        // dotenv.config();
+        // then in our docker-compose have the following:
+        // environment:
+        //   - UNLEASH_API_KEY=${UNLEASH_API_KEY}
+
         const unleash = initialize({
             url: 'http://unleash:4242/api/',
             appName: 'unleash-onboarding-node',

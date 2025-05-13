@@ -9,8 +9,6 @@ import {analyticsRoutes} from "./Routes/analyticsRoutes.js";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-///default:development.dca6bcd5e0482d017d0b7ad1c20923961fac5cffe23518cc0b82cf45
-
 app.use(cors());
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
