@@ -10,13 +10,13 @@ services:
     environment:
       - ACCEPT_EULA=Y
     volumes:
-      - seq_data:/data
+      - ./seq_data:/data
 
   featurehub:
     image: featurehub/party-server:latest
     restart: always
     volumes:
-      - featurehub-h2-data:/db
+      - ./featurehub-h2-data:/db
     ports:
       - "8085:8085"
 
@@ -47,7 +47,7 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: pass
     volumes:
-      - mariadb_data:/var/lib/mysql
+      - ./mariadb_data:/var/lib/mysql
     ports:
       - "3306:3306"
 
