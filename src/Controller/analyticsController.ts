@@ -23,10 +23,10 @@ export class AnalyticsController {
         //   - UNLEASH_API_KEY=${UNLEASH_API_KEY}
 
         const unleash = initialize({
-            url: 'http://unleash:4242/api/',
+            url: process.env.UNLEASH_ULR, // move to docker file
             appName: 'unleash-onboarding-node',
             customHeaders: {
-                Authorization: 'default:development.1817e5f7e650c7a94a275a678a1c9fb69ccf2601245cb83f5fa22f49' // in production use environment variable
+                Authorization: process.env.UNLEASH_AUTH // in production use environment variable
             },
         });
 

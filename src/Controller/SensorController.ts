@@ -4,7 +4,7 @@ import Logger from "../Infrastructure/Logger/logger.js";
 
 export class SensorController{
 
-    private sensorRepository: SensorRepository = new SensorRepository();
+    private readonly sensorRepository: SensorRepository = new SensorRepository();
 
     // @ts-ignore
     public async getSensorData(req: Request, res: Response): Promise<Response> {

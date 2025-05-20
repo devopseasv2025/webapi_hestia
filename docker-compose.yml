@@ -62,6 +62,8 @@ services:
       POSTGRES_DB: unleash
       POSTGRES_USER: unleash_user
       POSTGRES_PASSWORD: unleash_pass
+      UNLEASH_ULR: 'http://unleash:4242/api/'
+      UNLEASH_AUTH: 'default:development.1817e5f7e650c7a94a275a678a1c9fb69ccf2601245cb83f5fa22f49'
     volumes:
       - unleash_postgres_data:/var/lib/postgresql/data
     healthcheck:
